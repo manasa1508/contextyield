@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "description": "Full-information synthetic illustration, not a physical energy benchmark",
+  "tasks": [
+    {
+      "id": "short-easy-1", "kind": "inference", "capability": "short_answer",
+      "constraints": {"min_quality": 0.8, "evidence_requirement": "allow_synthetic_demo"},
+      "outcomes": {
+        "mock-efficient": {"quality": 1, "latency_ms": 75, "synthetic_energy_j": 3.1},
+        "mock-robust": {"quality": 1, "latency_ms": 44, "synthetic_energy_j": 10.2}
+      }
+    },
+    {
+      "id": "short-hard-1", "kind": "inference", "capability": "short_answer",
+      "constraints": {"min_quality": 0.9, "evidence_requirement": "allow_synthetic_demo"},
+      "outcomes": {
+        "mock-efficient": {"quality": 0, "latency_ms": 81, "synthetic_energy_j": 3.4},
+        "mock-robust": {"quality": 1, "latency_ms": 48, "synthetic_energy_j": 11.0}
+      }
+    },
+    {
+      "id": "catalog-common-1", "kind": "tool", "capability": "catalog.lookup",
+      "constraints": {"min_quality": 0.8, "evidence_requirement": "allow_synthetic_demo"},
+      "outcomes": {
+        "catalog-cache": {"quality": 1, "latency_ms": 10, "synthetic_energy_j": 0.12},
+        "catalog-origin": {"quality": 1, "latency_ms": 32, "synthetic_energy_j": 0.56}
+      }
+    },
+    {
+      "id": "catalog-strict-1", "kind": "tool", "capability": "catalog.lookup",
+      "constraints": {"min_quality": 0.95, "evidence_requirement": "allow_synthetic_demo"},
+      "outcomes": {
+        "catalog-cache": {"quality": 0, "latency_ms": 11, "synthetic_energy_j": 0.13},
+        "catalog-origin": {"quality": 1, "latency_ms": 34, "synthetic_energy_j": 0.60}
+      }
+    }
+  ]
+}

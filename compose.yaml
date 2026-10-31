@@ -1,0 +1,80 @@
+name: contextyield
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: contextyield
+      POSTGRES_PASSWORD: contextyield
+      POSTGRES_DB: contextyield
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U contextyield -d contextyield"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+    restart: unless-stopped
+
+  migrate:
+    build: .
+    command: ["python", "-m", "contextyield.migrate"]
+    environment:
+      CY_MODE: demo
+      CY_DATABASE_URL: postgresql://contextyield:contextyield@db:5432/contextyield
+    depends_on:
+      db:
+        condition: service_healthy
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+
+  mock:
+    build: .
+    command: ["uvicorn", "contextyield.mock_upstream:app", "--host", "0.0.0.0", "--port", "8090"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8090/health', timeout=2)"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+
+  router:
+    build: .
+    environment:
+      CY_MODE: demo
+      CY_DATABASE_URL: postgresql://contextyield:contextyield@db:5432/contextyield
+      CY_REGISTRY: config/routes.demo.json
+      CY_API_KEYS_JSON: '{"demo":"dev-local-key"}'
+    ports:
+      - "127.0.0.1:18080:8080"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      mock:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health/ready', timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    read_only: true
+    tmpfs: [/tmp]
+
+  smoke:
+    profiles: [smoke]
+    build: .
+    command: ["python", "scripts/smoke.py"]
+    environment:
+      CY_SMOKE_URL: http://router:8080
+      CY_SMOKE_KEY: dev-local-key
+    depends_on:
+      router:
+        condition: service_healthy
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+
+volumes:
+  pgdata:

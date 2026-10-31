@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "routes": [
+    {
+      "id": "local-openai-compatible", "kind": "inference", "capability": "short_answer",
+      "url": "http://host.docker.internal:8000/v1/chat/completions",
+      "version": "replace-with-pinned-local-model-id", "region": "local",
+      "quality": 0.0, "p95_ms": 10000,
+      "energy_low_j": null, "energy_high_j": null, "evidence": "unknown",
+      "priority": 100, "auth_type": "none"
+    },
+    {
+      "id": "local-embedding", "kind": "embedding", "capability": "retrieval.embed",
+      "url": "http://host.docker.internal:8000/v1/embeddings",
+      "version": "replace-with-pinned-embedding-model-id", "region": "local",
+      "quality": 0.0, "p95_ms": 10000,
+      "energy_low_j": null, "energy_high_j": null, "evidence": "unknown",
+      "priority": 100, "auth_type": "none"
+    }
+  ]
+}

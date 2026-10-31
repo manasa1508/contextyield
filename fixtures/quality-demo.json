@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "description": "Demonstrates the evaluation command against the echo mock; not a real quality benchmark",
+  "samples": [
+    {"id": "demo-01", "messages": [{"role": "user", "content": "heat pump one"}], "expected_substring": "heat pump one"},
+    {"id": "demo-02", "messages": [{"role": "user", "content": "heat pump two"}], "expected_substring": "heat pump two"},
+    {"id": "demo-03", "messages": [{"role": "user", "content": "heat pump three"}], "expected_substring": "heat pump three"},
+    {"id": "demo-04", "messages": [{"role": "user", "content": "solar panel four"}], "expected_substring": "solar panel four"},
+    {"id": "demo-05", "messages": [{"role": "user", "content": "solar panel five"}], "expected_substring": "solar panel five"},
+    {"id": "demo-06", "messages": [{"role": "user", "content": "solar panel six"}], "expected_substring": "solar panel six"},
+    {"id": "demo-07", "messages": [{"role": "user", "content": "battery seven"}], "expected_substring": "battery seven"},
+    {"id": "demo-08", "messages": [{"role": "user", "content": "battery eight"}], "expected_substring": "battery eight"},
+    {"id": "demo-09", "messages": [{"role": "user", "content": "battery nine"}], "expected_substring": "battery nine"},
+    {"id": "demo-10", "messages": [{"role": "user", "content": "battery ten"}], "expected_substring": "battery ten"}
+  ]
+}

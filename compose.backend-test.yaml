@@ -1,0 +1,8 @@
+# Development only. Override a fixed route registry while keeping the gateway on loopback.
+services:
+  router:
+    environment:
+      CY_REGISTRY: ${CY_REGISTRY:-config/routes.local.example.json}
+      CY_UPSTREAM_KEY: ${CY_UPSTREAM_KEY:-}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

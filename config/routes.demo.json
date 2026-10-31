@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "routes": [
+    {
+      "id": "mock-efficient", "kind": "inference", "capability": "short_answer",
+      "url": "http://mock:8090/model/efficient", "version": "mock-efficient-v1",
+      "region": "local", "quality": 0.82, "p95_ms": 900,
+      "energy_low_j": 2.0, "energy_high_j": 5.0, "evidence": "synthetic_demo",
+      "profile_id": "synthetic-short-answer-v1", "priority": 20
+    },
+    {
+      "id": "mock-robust", "kind": "inference", "capability": "short_answer",
+      "url": "http://mock:8090/model/robust", "version": "mock-robust-v1",
+      "region": "local", "quality": 0.96, "p95_ms": 600,
+      "energy_low_j": 8.0, "energy_high_j": 15.0, "evidence": "synthetic_demo",
+      "profile_id": "synthetic-short-answer-v1", "priority": 10
+    },
+    {
+      "id": "mock-embedding", "kind": "embedding", "capability": "retrieval.embed",
+      "url": "http://mock:8090/embedding/local", "version": "mock-embedding-v1",
+      "region": "local", "quality": 0.90, "p95_ms": 50,
+      "energy_low_j": 0.2, "energy_high_j": 0.4, "evidence": "synthetic_demo",
+      "profile_id": "synthetic-embedding-v1", "priority": 10
+    },
+    {
+      "id": "catalog-cache", "kind": "tool", "capability": "catalog.lookup",
+      "url": "http://mock:8090/tool/cache", "version": "catalog-v1",
+      "region": "local", "quality": 0.90, "p95_ms": 30,
+      "energy_low_j": 0.1, "energy_high_j": 0.2, "evidence": "synthetic_demo",
+      "profile_id": "synthetic-catalog-v1", "priority": 20, "read_only": true
+    },
+    {
+      "id": "catalog-origin", "kind": "tool", "capability": "catalog.lookup",
+      "url": "http://mock:8090/tool/origin", "version": "catalog-v1",
+      "region": "local", "quality": 0.99, "p95_ms": 80,
+      "energy_low_j": 0.4, "energy_high_j": 0.8, "evidence": "synthetic_demo",
+      "profile_id": "synthetic-catalog-v1", "priority": 10, "read_only": true
+    }
+  ]
+}
